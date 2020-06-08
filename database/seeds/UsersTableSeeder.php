@@ -13,12 +13,14 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        for ($i=0; $i < 50; $i++) { 
+        for ($i=0; $i < 25; $i++) { 
             \DB::table('users')->insert(
                 array(
                     'name' => $faker->name,
+                    'username' => $faker->username,
                     'email' => $faker->email,
-                    'password' => $faker->password,
+                    'password' => Hash::make('password'),
+                    'api_token' => $faker->password,
                 ));
         }
     }

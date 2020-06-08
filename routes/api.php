@@ -13,12 +13,18 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 /* Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 }); */
-Route::apiresource('users','UserController');
-Route::apiresource('rols','RolController');
+// Route::apiresource('users','UserController');
+
+$router->post('users/login',['uses'=>'UserController@getToken']);
+// Route::post('user/login', ['middleware'=>'auth', 'user'=>'UserController@getToken']);
+$router->group(['middleware' => ['auth']],function () use ($router){
+    Route::apiresource('users','UserController');
+    Route::apiresource('rols','RolController');
+});
+
 
 Route::apiresource('transactions','TransactionController');
-Route::apiresource('categories','CategoryController');
+// Route::apiresource('categories','CategoryController');

@@ -18,8 +18,9 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
+        if (Auth::guard($guard)->guest()) {
+            // return redirect(RouteServiceProvider::HOME);
+            return response('Unauthorized','401');
         }
 
         return $next($request);

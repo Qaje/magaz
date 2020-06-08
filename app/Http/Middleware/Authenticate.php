@@ -3,7 +3,8 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-
+use Closure;
+// use Illuminate\Auth;
 class Authenticate extends Middleware
 {
     /**
@@ -15,7 +16,24 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('login');
+            // return route('login');
+            return route('home');
         }
+    }
+    public function __construct(Auth $auth)
+    {
+        $this->auth = $auth;
+    }
+
+    public function handle($request, Closure $next, $guard = null)
+    {
+        // dd($request);
+        // if (Auth::guard($guard)->guest()) {
+            if($this->auth->guard($guard)->guest()){
+            // return redirect(RouteServiceProvider::HOME);
+            return response('Unauthorized, Please authenticate first','401');
+        }
+
+        return $next($request);
     }
 }
