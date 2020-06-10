@@ -28,10 +28,10 @@ class Authenticate extends Middleware
     public function handle($request, Closure $next, $guard = null)
     {
         // dd($request);
-        // if (Auth::guard($guard)->guest()) {
-            if($this->auth->guard($guard)->guest()){
-            // return redirect(RouteServiceProvider::HOME);
-            return response('Unauthorized, Please authenticate first','401');
+        if (Auth::guard($guard)->guest()) {
+            // if($this->auth->guard($guard)->guest()){
+            return redirect(RouteServiceProvider::HOME);
+            // return response('Unauthorized, Please authenticate first','401');
         }
 
         return $next($request);

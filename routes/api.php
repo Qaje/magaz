@@ -20,11 +20,11 @@ use Illuminate\Support\Facades\Route;
 
 $router->post('users/login',['uses'=>'UserController@getToken']);
 // Route::post('user/login', ['middleware'=>'auth', 'user'=>'UserController@getToken']);
-$router->group(['middleware' => ['auth']],function () use ($router){
-    Route::apiresource('users','UserController');
-    Route::apiresource('rols','RolController');
-});
+// $router->group(['middleware' => ['auth']],function () use ($router){
+    Route::apiResource('users','UserController');
+    Route::apiResource('rols','RolController');
+// });
 
 
-Route::apiresource('transactions','TransactionController');
+Route::apiResource('transactions','TransactionController');
 // Route::apiresource('categories','CategoryController');

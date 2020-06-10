@@ -75,14 +75,18 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        // dd($id);
-        if($request->isJson()){
-            // dd($request);
+        //  $user = User::find($id);
+        // return User::find($id);
+        if($id>0){
+            // dd($user);
             $user = User::find($id);
             // dd($user);
+            if(!empty($user))
             return response()->json($user,200);
+            else
+            return response()->json(['error' => 'Record not found!'],401,[]);
         }
-        return response()->json(['error' => 'Unauthorized'],401,[]);
+        return response()->json(['error' => 'Record not found!'],401,[]);
     }
 
     /**
@@ -94,7 +98,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if($id>0){
+            // dd($user);
+            $user = User::find($id);
+            if(!empty($user)){
+            $user->update($request->all());
+            return response()->json($user,200);
+            }
+            else
+            return response()->json(['error' => 'Record not found!'],401,[]);
+        }
+        return response()->json(['error' => 'Record not found!'],401,[]);
     }
 
     /**
@@ -105,6 +119,15 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if($id>0 && is_numeric($id)){
+            // dd($user);
+            $user = User::destroy($id);
+            // dd($user);
+            if(!empty($user))
+            return response()->json($user,200,['Deleted']);
+            else
+            return response()->json(['error' => 'Record not exist to delete!'],401,[]);
+        }
+        return response()->json(['error' => 'Record not found!'],401,[]);
     }
 }
